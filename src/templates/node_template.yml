@@ -215,7 +215,7 @@ metadata:
   required: false
   rowwise: false
   type: string
-- column: coord validation
+- column: collunitnotes
   neotoma: ndb.collectionunits.notes
   overwrite: false
   required: false
