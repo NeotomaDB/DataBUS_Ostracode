@@ -79,7 +79,7 @@ for filename in filenames:
     logfile.append('\n === Inserting Collection Units ===')
     uploader['collunitid'] = nu.insert_collunit(**inputs)
     logfile = logging_response(uploader['collunitid'], logfile)
-    
+
     logfile.append('\n=== Inserting Collector ===')
     uploader['collector'] = nu.insert_collector(**inputs)
     logfile = logging_response(uploader['collector'], logfile)
