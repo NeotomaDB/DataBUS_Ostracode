@@ -179,3 +179,4 @@ src/remove_cu2.py
 src/utils/eanode_data_cleaner2.py
 src/utils/replacement.py
 src/utils/node_data_cleaner2.py
+*.txt

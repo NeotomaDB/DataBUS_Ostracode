@@ -185,7 +185,7 @@ wheels = [
 [[package]]
 name = "databus"
 version = "0.1.0"
-source = { git = "https://github.com/NeotomaDB/DataBUS#bce650a378cb5138cfe731bfbf588f255780747c" }
+source = { git = "https://github.com/NeotomaDB/DataBUS?rev=dev#2e33ddf805cbf5d9ee4a0e7de6043107bde60e76" }
 dependencies = [
     { name = "mkdocs" },
     { name = "mkdocs-material" },
@@ -241,7 +241,7 @@ requires-dist = [
     { name = "black", marker = "extra == 'dev'" },
     { name = "build", marker = "extra == 'build'" },
     { name = "bumpver", marker = "extra == 'dev'" },
-    { name = "databus", git = "https://github.com/NeotomaDB/DataBUS" },
+    { name = "databus", git = "https://github.com/NeotomaDB/DataBUS?rev=dev" },
     { name = "isort", marker = "extra == 'dev'" },
     { name = "mypy", marker = "extra == 'dev'" },
     { name = "mysql-connector-python", specifier = ">=9.2.0" },
