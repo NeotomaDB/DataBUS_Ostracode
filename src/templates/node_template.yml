@@ -78,7 +78,7 @@ metadata:
   neotoma: ndb.collectionunits.substrateid
   overwrite: false
   required: false
-  rowwise: false
+  rowwise: false 
   type: integer
 - column: collection_date
   neotoma: ndb.collectionunits.colldate
@@ -92,6 +92,8 @@ metadata:
   overwrite: false
   required: false
   rowwise: false
+  chronologyname: Collection_Date
+  isdefault: true
   type: date
 - column: collection_date
   formatorrange: '%Y-%m-%d'
@@ -99,29 +101,41 @@ metadata:
   overwrite: false
   required: false
   rowwise: false
+  chronologyname: Collection_Date
   type: date
 - column: age_model
   neotoma: ndb.chronologies.agemodel
   overwrite: false
   required: false
   rowwise: false
+  chronologyname: Collection_Date
   type: str
 - column: age_model
   neotoma: ndb.chronologies.chronologyname
   overwrite: false
   required: false
   rowwise: false
+  chronologyname: Collection_Date
   type: str
 - column: age_type
   neotoma: ndb.chronologies.agetype
   overwrite: false
   required: false
   rowwise: false
+  chronologyname: Collection_Date
   type: str
-- column: age_model
+- column: age_type
   neotoma: ndb.sampleages.agetype
   overwrite: false
   required: false
+  chronologyname: Collection_Date
+  rowwise: false
+  type: str
+- column: age_model
+  neotoma: ndb.sampleages.agemodel
+  overwrite: false
+  required: false
+  chronologyname: Collection_Date
   rowwise: false
   type: str
 - column: depth
@@ -136,18 +150,18 @@ metadata:
   overwrite: false
   required: true
   value: null
-- column: datasetnotes
-  neotoma: ndb.datasets.notes
-  overwrite: false
-  required: false
-  rowwise: false
-  type: string
-- column: datasetnotes2
-  neotoma: ndb.datasets.notes
-  overwrite: false
-  required: false
-  rowwise: true
-  type: string
+# - column: datasetnotes
+#   neotoma: ndb.datasets.notes
+#   overwrite: false
+#   required: false
+#   rowwise: false
+#   type: string
+# - column: datasetnotes2
+#   neotoma: ndb.datasets.notes
+#   overwrite: false
+#   required: false
+#   rowwise: true
+#   type: string
 - column: datasettypeid
   neotoma: ndb.datasettypes.datasettype
   notes: null

@@ -30,7 +30,6 @@ valid_logs = 'data/NODE/validation_logs/'
 valid_logs_wrong = Path('data/NODE/validation_logs/not_validated/')
 Path(valid_logs).mkdir(exist_ok=True)
 valid_logs_wrong.mkdir(exist_ok=True)
-
 for filename in filenames:
     print(filename)
     logfile = []
@@ -69,11 +68,11 @@ for filename in filenames:
             logfile = logging_response(validator['analysisunit'], logfile)
             
             logfile.append('\n === Checking Chronologies ===')
-            validator['chronologies'] = nv.valid_chronologies(**inputs, multiple=False)
+            validator['chronologies'] = nv.valid_chronologies(**inputs)
             logfile = logging_response(validator['chronologies'], logfile)
 
             logfile.append('\n === Checking Dataset ===')
-            validator['dataset'] = nv.valid_dataset(**inputs, name="Name in record")
+            validator['dataset'] = nv.valid_dataset(**inputs)
             logfile = logging_response(validator['dataset'], logfile)
 
             logfile.append('\n === Checking Against Contact Names ===')
@@ -103,10 +102,8 @@ for filename in filenames:
 
             conn.rollback()
             all_true = all([validator[key].validAll for key in validator])
-
             not_validated_files = "data/NODE/not_validated_files"
             all_true = all_true and filecheck['pass']
-
             if all_true == False:
                 print(f"{filename} moved to 'not_validated_files' folder.")
                 os.makedirs(not_validated_files, exist_ok=True)
@@ -124,9 +121,10 @@ for filename in filenames:
                     writer.write('\n') 
 
         except Exception as e:
+            print(e)
             print(f"{filename} moved to 'not_validated_files' folder: {e}.")
             logfile.append('\n === Validation Failed ===')
-            logfile.append(f"{str(e)}")
+            logfile.append(f"✗ File validation failed: {e}")
             not_validated_files = "data/NODE/not_validated_files"
             os.makedirs(not_validated_files, exist_ok=True)
             uploaded_path = os.path.join(not_validated_files, os.path.basename(filename))
