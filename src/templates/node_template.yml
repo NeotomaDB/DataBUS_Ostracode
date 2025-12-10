@@ -2,61 +2,53 @@ apiVersion: neotoma v2.0
 headers: 2
 kind: Development
 metadata:
-- column: sitename
+- column: Sitename
   neotoma: ndb.sites.sitename
-  notes: If empty, used LOCALITY
   overwrite: false
   required: true
   rowwise: false
   type: string
-- column: latitude
+- column: SiteNotes
+  neotoma: ndb.sites.notes
+  overwrite: false
+  required: false
+  rowwise: false
+  type: string
+- column: Latitude
   neotoma: ndb.sites.geog.latitude
   notes: Create from CSV file unite LATDEG, LATMIN, LATSEC
   overwrite: false
   required: true
   rowwise: false
   type: float
-- column: longitude
+- column: Longitude
   neotoma: ndb.sites.geog.longitude
   notes: Create from CSV file unite LONGDEG, LONMIN, LONSEC
   overwrite: false
   required: true
   rowwise: false
   type: float
-- column: altitude
-  neotoma: ndb.sites.altitude
-  overwrite: false
-  required: false
-  rowwise: false
-  type: float
-- column: country
+- column: Country
   neotoma: ndb.sitegeopolitical.geopoliticalunit1
   overwrite: false
   required: false
   rowwise: false
   type: string
   vocab: [fixed]
-- column: region
+- column: Region
   neotoma: ndb.sitegeopolitical.geopoliticalunit2
   overwrite: false
   required: false
   rowwise: false
   type: string
   vocab: [fixed]
-- column: locality
-  neotoma: ndb.sitegeopolitical.geopoliticalunit3
-  overwrite: false
-  required: false
-  rowwise: false
-  type: string
-  vocab: [fixed]
-- column: record_number
+- column: Handle
   neotoma: ndb.collectionunits.collunitname
   overwrite: false
   required: false
   rowwise: false
   type: string
-- column: handle_complete
+- column: Handle
   neotoma: ndb.collectionunits.handle
   overwrite: true
   required: false
@@ -68,100 +60,18 @@ metadata:
   overwrite: false
   required: false
   value: modern
-- column: habitat
-  neotoma: ndb.collectionunits.depenvtid
-  overwrite: false
-  required: false
-  rowwise: false
-  type: integer
-- column: substrate
-  neotoma: ndb.collectionunits.substrateid
-  overwrite: false
-  required: false
-  rowwise: false 
-  type: integer
-- column: collection_date
-  neotoma: ndb.collectionunits.colldate
-  overwrite: false
-  required: false
-  rowwise: false
-  type: date
-- column: collection_date
-  formatorrange: '%Y-%m-%d'
-  neotoma: ndb.chronologies.age
-  overwrite: false
-  required: false
-  rowwise: false
-  chronologyname: Collection_Date
-  isdefault: true
-  type: date
-- column: collection_date
-  formatorrange: '%Y-%m-%d'
-  neotoma: ndb.sampleages.age
-  overwrite: false
-  required: false
-  rowwise: false
-  chronologyname: Collection_Date
-  type: date
-- column: age_model
-  neotoma: ndb.chronologies.agemodel
-  overwrite: false
-  required: false
-  rowwise: false
-  chronologyname: Collection_Date
-  type: str
-- column: age_model
-  neotoma: ndb.chronologies.chronologyname
-  overwrite: false
-  required: false
-  rowwise: false
-  chronologyname: Collection_Date
-  type: str
-- column: age_type
-  neotoma: ndb.chronologies.agetype
-  overwrite: false
-  required: false
-  rowwise: false
-  chronologyname: Collection_Date
-  type: str
-- column: age_type
-  neotoma: ndb.sampleages.agetype
-  overwrite: false
-  required: false
-  chronologyname: Collection_Date
-  rowwise: false
-  type: str
-- column: age_model
-  neotoma: ndb.sampleages.agemodel
-  overwrite: false
-  required: false
-  chronologyname: Collection_Date
-  rowwise: false
-  type: str
-- column: depth
-  neotoma: ndb.collectionunits.waterdepth
-  overwrite: false
-  required: false
-  rowwise: false
-  type: float
-- column: record_number
+- column: Handle
   neotoma: ndb.datasets.datasetname
   notes: null
   overwrite: false
   required: true
   value: null
-# - column: datasetnotes
-#   neotoma: ndb.datasets.notes
-#   overwrite: false
-#   required: false
-#   rowwise: false
-#   type: string
-# - column: datasetnotes2
-#   neotoma: ndb.datasets.notes
-#   overwrite: false
-#   required: false
-#   rowwise: true
-#   type: string
+- column: DatasetNotes
+  neotoma: ndb.datasets.notes
+  overwrite: false
+  required: false
+  rowwise: false
+  type: string
 - column: datasettypeid
   neotoma: ndb.datasettypes.datasettype
   notes: null
@@ -174,7 +84,7 @@ metadata:
   overwrite: false
   required: true
   value: Nonmarine Ostracod Distribution in Europe Database
-- column: taxonname
+- column: Taxonname
   neotoma: ndb.variables.taxon
   overwrite: false
   required: false
@@ -182,6 +92,12 @@ metadata:
   type: string
 - column: variableelement
   neotoma: ndb.variables.variableelement
+  overwrite: false
+  required: false
+  rowwise: true
+  type: string
+- column: variablecontext
+  neotoma: ndb.variables.variablecontext
   overwrite: false
   required: false
   rowwise: true
@@ -204,32 +120,32 @@ metadata:
   required: false
   rowwise: false
   type: string
-- column: pi
+- column: PI
   neotoma: ndb.collectors.contactname
   overwrite: false
   required: false
   rowwise: false
   type: string
-- column: dataset_processor
+- column: DatasetProcessor 
   neotoma: ndb.datasetprocessor.contactname
   overwrite: false
   required: false
   rowwise: false
   type: string
-- column: sample_analyst
+- column: SampleAnalyst
   neotoma: ndb.sampleanalysts.contactname
   overwrite: false
   required: false
   rowwise: false
   type: string
   vocab: [fixed]
-- column: citation
+- column: Reference
   neotoma: ndb.publications.citation
   overwrite: false
   required: false
   rowwise: false
   type: string
-- column: collunitnotes
+- column: CollectionUnitNotes
   neotoma: ndb.collectionunits.notes
   overwrite: false
   required: false
