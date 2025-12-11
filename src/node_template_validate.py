@@ -66,10 +66,6 @@ for filename in filenames:
             validator['analysisunit'] = nv.valid_analysisunit(yml_dict = yml_dict,
                                                               csv_file = csv_file)
             logfile = logging_response(validator['analysisunit'], logfile)
-            
-            logfile.append('\n === Checking Chronologies ===')
-            validator['chronologies'] = nv.valid_chronologies(**inputs)
-            logfile = logging_response(validator['chronologies'], logfile)
 
             logfile.append('\n === Checking Dataset ===')
             validator['dataset'] = nv.valid_dataset(**inputs)
@@ -87,10 +83,6 @@ for filename in filenames:
             logfile.append('\n=== Validating Samples ===')
             validator['sample'] = nv.valid_sample(**inputs, validator = validator)
             logfile = logging_response(validator['sample'], logfile)          
-
-            logfile.append('\n=== Validating Sample Ages ===')
-            validator['sample_age'] = nv.valid_sample_age(**inputs, validator = validator)
-            logfile = logging_response(validator['sample_age'], logfile)
 
             logfile.append('\n === Validating Taxa Names ===')
             validator['taxa'] = nv.valid_data(**inputs)

@@ -96,7 +96,7 @@ metadata:
   required: false
   rowwise: true
   type: string
-- column: variablecontext
+- column: context
   neotoma: ndb.variables.variablecontext
   overwrite: false
   required: false
@@ -114,7 +114,7 @@ metadata:
   required: false
   rowwise: true
   type: string
-- column: pi
+- column: PI
   neotoma: ndb.datasetpis.contactname
   overwrite: false
   required: false

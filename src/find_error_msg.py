@@ -37,7 +37,7 @@ def extract_unique_invalid_blocks(directory, output_file):
     return list(error_counter.items()), total_error_count
 
 def main():
-    output_file='unique_invalid_blocks.txt'
+    output_file='data/not_validated_blocks.txt'
     directory = 'data/NODE/validation_logs/not_validated/'
     errors, total_error_count = extract_unique_invalid_blocks(directory, output_file)
     # Save the unique blocks with counts to the output file
@@ -52,5 +52,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
