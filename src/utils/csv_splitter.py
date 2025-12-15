@@ -1,5 +1,5 @@
 import pandas as pd
-import os
+import os 
 
 def csv_splitter(data, params=['Handle'], path = 'data/splitted'):
     split_files = path
