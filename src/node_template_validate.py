@@ -30,16 +30,15 @@ valid_logs = 'data/NODE/validation_logs/'
 valid_logs_wrong = Path('data/NODE/validation_logs/not_validated/')
 Path(valid_logs).mkdir(exist_ok=True)
 valid_logs_wrong.mkdir(exist_ok=True)
+
 for filename in filenames:
-    print(filename)
     logfile = []
     hashcheck = nh.hash_file(filename, valid_logs)
     filecheck = nv.check_file(filename, validation_files=valid_logs)
-
     logfile = logfile + hashcheck['message'] + filecheck['message']
     logfile.append(f"\nNew validation started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     if hashcheck['pass'] and filecheck['pass']:
-        print("  - File is correct and hasn't changed since last validation.")
+        continue
     else:
         yml_dict = nh.template_to_dict(temp_file=args['template'])
         yml_data = yml_dict['metadata']
@@ -48,7 +47,6 @@ for filename in filenames:
         inputs = {'cur': cur,
                   'yml_dict': yml_dict,
                   'csv_file': csv_file}
-
         try:
             logfile.append('\n === Validating Sites ===')
             validator['sites'] = nv.valid_site(**inputs)
@@ -113,7 +111,6 @@ for filename in filenames:
                     writer.write('\n') 
 
         except Exception as e:
-            print(e)
             print(f"{filename} moved to 'not_validated_files' folder: {e}.")
             logfile.append('\n === Validation Failed ===')
             logfile.append(f"✗ File validation failed: {e}")
