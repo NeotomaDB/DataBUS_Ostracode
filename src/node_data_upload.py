@@ -16,20 +16,16 @@ To run, you can use:
 python template_upload.py
 
 In that case, the default template 'template.yml' is used.
-
 You can also use a different template file by running:
 python src/node_data_upload.py --template='src/templates/node_template.yml' --data='data/NODE/' --validation_logs='data/NODE/validation_logs/'
 
-Change 'template_xlsx.xlsx' to desired filename as long as 
-template file that has an .xlsx or .yml extension
+Template file may have an .xlsx or .yml extension
 """
 
 load_dotenv()
 data = json.loads(os.getenv('PGDB_TANK'))
-
 conn = psycopg2.connect(**data, connect_timeout = 5)
 cur = conn.cursor()
-
 args = nh.parse_arguments()
 overwrite = args['overwrite']
 
@@ -44,28 +40,21 @@ total_files = len(filenames)
 start_time = datetime.now()
 print(f"Start uploading {total_files} files at {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
 next_percent = 5
-
-#filenames = ['data/NODE/NODE-R144.csv']
+#filenames = ['data/NODE/NODE-R585.csv']
 for j, filename in enumerate(filenames, 1):
     test_dict = {}
-    print(filename)
     logfile = []
-
     hashcheck = nh.hash_file(filename, valid_logs)
     filecheck = check_file(filename, validation_files=valid_logs, strict=False) # Will not allow changes in the database.
 
     logfile = logfile + hashcheck['message'] + filecheck['message']
     logfile.append(f"\nNew Upload started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-
     if hashcheck['pass'] is False and filecheck['pass'] is False:
         csv_file = nh.read_csv(filename)
         logfile.append("File must be properly validated before it can be uploaded.")
     else:
         csv_file = nh.read_csv(filename)
-        # This possibly needs to be fixed. How do we know that there is one or more header rows?
-
     uploader = {}
- 
     yml_dict = nh.template_to_dict(temp_file=args['template'])
     yml_data = yml_dict['metadata']
     inputs = {'cur': cur,
@@ -89,7 +78,8 @@ for j, filename in enumerate(filenames, 1):
         logfile.append('\n=== Inserting Collector ===')
         uploader['collector'] = nu.insert_collector(**inputs)
         logfile = logging_response(uploader['collector'], logfile)
-       
+        print(uploader["collector"])
+
         logfile.append('\n=== Inserting Analysis Units ===')
         uploader['anunits'] = nu.insert_analysisunit(**inputs)
         logfile = logging_response(uploader['anunits'], logfile)
@@ -123,6 +113,7 @@ for j, filename in enumerate(filenames, 1):
         logfile.append('\n === Inserting Data ===')
         uploader['data'] = nu.insert_data(**inputs)
         logfile = logging_response(uploader['data'], logfile)
+        print(uploader['data'])
 
         logfile.append('\n === Uploading Publications ===')
         uploader['publications'] = nu.insert_publication(**inputs)
@@ -133,9 +124,7 @@ for j, filename in enumerate(filenames, 1):
                                                uploader = uploader)
         all_true = all([uploader[key].validAll for key in uploader])
         all_true = all_true and hashcheck
-
         if all_true:
-            print(f"{filename} was uploaded.\nMoved {filename} to the 'uploaded_files' folder.")
             #conn.commit()
             conn.rollback()
             os.makedirs(uploaded_files, exist_ok=True)
@@ -150,7 +139,7 @@ for j, filename in enumerate(filenames, 1):
             not_uploaded_files = "data/NODE/failed_uploads"
             os.makedirs(not_uploaded_files, exist_ok=True)
             not_uploaded_path = os.path.join(not_uploaded_files, os.path.basename(filename))
-            os.replace(filename, not_uploaded_path)
+            #os.replace(filename, not_uploaded_path)
             print(f"filename {filename} could not be uploaded.")
             os.makedirs('data/NODE/upload_logs/failed_uploads/', exist_ok=True)
             modified_filename = filename.replace('data/NODE/', 'data/NODE/upload_logs/failed_uploads/')
@@ -160,14 +149,13 @@ for j, filename in enumerate(filenames, 1):
                     writer.write('\n')
             conn.rollback()
     except Exception as e:
-        print(e)
+        conn.rollback()
+        print(f"filename {filename} could not be uploaded: {e}.")
         not_uploaded_files = "data/NODE/failed_uploads"
         logfile.append(f"✗ File upload failed: {e}")
         os.makedirs(not_uploaded_files, exist_ok=True)
         not_uploaded_path = os.path.join(not_uploaded_files, os.path.basename(filename))
-        os.replace(filename, not_uploaded_path)
-        print(f"filename {filename} could not be uploaded: {e}.")
-        conn.rollback()
+        #os.replace(filename, not_uploaded_path)
         os.makedirs('data/NODE/upload_logs/failed_uploads/', exist_ok=True)
         modified_filename = filename.replace('data/NODE/', 'data/NODE/upload_logs/failed_uploads/')
         with open(modified_filename + '.upload.log', 'w', encoding = "utf-8") as writer:
@@ -175,7 +163,6 @@ for j, filename in enumerate(filenames, 1):
                 writer.write(i)
                 writer.write('\n')
     finally:
-         ### Temporary to check how many files are pending
         percent_complete = (j / total_files) * 100
         if percent_complete >= next_percent:
             now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
