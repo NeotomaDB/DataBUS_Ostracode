@@ -78,7 +78,6 @@ for j, filename in enumerate(filenames, 1):
         logfile.append('\n=== Inserting Collector ===')
         uploader['collector'] = nu.insert_collector(**inputs)
         logfile = logging_response(uploader['collector'], logfile)
-        print(uploader["collector"])
 
         logfile.append('\n=== Inserting Analysis Units ===')
         uploader['anunits'] = nu.insert_analysisunit(**inputs)
@@ -113,7 +112,6 @@ for j, filename in enumerate(filenames, 1):
         logfile.append('\n === Inserting Data ===')
         uploader['data'] = nu.insert_data(**inputs)
         logfile = logging_response(uploader['data'], logfile)
-        print(uploader['data'])
 
         logfile.append('\n === Uploading Publications ===')
         uploader['publications'] = nu.insert_publication(**inputs)
