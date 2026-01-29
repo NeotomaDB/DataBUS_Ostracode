@@ -40,13 +40,11 @@ total_files = len(filenames)
 start_time = datetime.now()
 print(f"Start uploading {total_files} files at {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
 next_percent = 5
-#filenames = ['data/NODE/NODE-R585.csv']
 for j, filename in enumerate(filenames, 1):
     test_dict = {}
     logfile = []
     hashcheck = nh.hash_file(filename, valid_logs)
-    filecheck = check_file(filename, validation_files=valid_logs, strict=False) # Will not allow changes in the database.
-
+    filecheck = check_file(filename, validation_files=valid_logs, strict=False)
     logfile = logfile + hashcheck['message'] + filecheck['message']
     logfile.append(f"\nNew Upload started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     if hashcheck['pass'] is False and filecheck['pass'] is False:
