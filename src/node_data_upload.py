@@ -23,7 +23,7 @@ Template file may have an .xlsx or .yml extension
 """
 
 load_dotenv()
-data = json.loads(os.getenv('PGDB_TANK'))
+data = json.loads(os.getenv('PGDB_LOCAL'))
 conn = psycopg2.connect(**data, connect_timeout = 5)
 cur = conn.cursor()
 args = nh.parse_arguments()
@@ -135,7 +135,7 @@ for j, filename in enumerate(filenames, 1):
             not_uploaded_files = "data/NODE/failed_uploads"
             os.makedirs(not_uploaded_files, exist_ok=True)
             not_uploaded_path = os.path.join(not_uploaded_files, os.path.basename(filename))
-            #os.replace(filename, not_uploaded_path)
+            os.replace(filename, not_uploaded_path)
             print(f"filename {filename} could not be uploaded.")
             os.makedirs('data/NODE/upload_logs/failed_uploads/', exist_ok=True)
             modified_filename = filename.replace('data/NODE/', 'data/NODE/upload_logs/failed_uploads/')
@@ -151,7 +151,7 @@ for j, filename in enumerate(filenames, 1):
         logfile.append(f"✗ File upload failed: {e}")
         os.makedirs(not_uploaded_files, exist_ok=True)
         not_uploaded_path = os.path.join(not_uploaded_files, os.path.basename(filename))
-        #os.replace(filename, not_uploaded_path)
+        os.replace(filename, not_uploaded_path)
         os.makedirs('data/NODE/upload_logs/failed_uploads/', exist_ok=True)
         modified_filename = filename.replace('data/NODE/', 'data/NODE/upload_logs/failed_uploads/')
         with open(modified_filename + '.upload.log', 'w', encoding = "utf-8") as writer:
